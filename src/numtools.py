@@ -43,3 +43,18 @@ def lex_perm(l, b):
         lr.append(l[ll - 1 - i])
     b.append(lr)
     lex_perm(lr, b)
+
+def group(l):
+    gr = []
+    for i in range(0, len(l)):
+        base = 0
+        for j in range(0, i + 1):
+            base = base * 10 + l[j]
+        groups = group(l[i + 1:])
+        if len(groups) < 1:
+            gr.append([base])
+        else:
+            for j in range(0, len(groups)):
+                groups[j].insert(0, base)
+                gr.append(groups[j])
+    return gr
