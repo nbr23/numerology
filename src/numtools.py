@@ -70,3 +70,25 @@ def div(a, b):
 
 operators = [add, sub, mul, div]
 operators_s = ["+", "-", "×", "÷"]
+
+def gen_cal(l, depth, fast, match):
+    r = []
+    if len(l) == 1:
+        return [(l[0], str(l[0]))]
+    else:
+        calcs = gen_cal(l[1:], depth + 1, fast, match)
+        for i in range(0, len(operators)):
+            for (res, s) in calcs:
+                if operators[i] == div and res == 0:
+                    continue
+                res = operators[i](l[0], res)
+                s2 = str(l[0]) + operators_s[i] + s
+                if depth == 0:
+                    if res == match:
+                        r.append((res, s2))
+                        if fast:
+                            return r
+                else:
+                    r.append((res, s2))
+    return r
+
