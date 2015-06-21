@@ -92,3 +92,37 @@ def gen_cal(l, depth, fast, match):
                     r.append((res, s2))
     return r
 
+def getMatches(s, match, fast=True, v=False):
+    s = isort(s)
+    if v:
+        print("Sample sorted:")
+        print(s)
+
+    b = lex_perm_i(s)
+    if v:
+        print("Created %i permutations" % len(b))
+
+    g = []
+    for perm in b:
+        groups = group(perm)
+        for elt in groups:
+            g.append(elt)
+    if v:
+        print("Created %i different groupings" % len(g))
+
+    c = []
+    lg = len(g)
+    tot = 0
+    for gr in g:
+        calcs = gen_cal(gr, 0, fast, match)
+        for (res,cstr) in calcs:
+            tot += 1
+            if res == match and cstr not in c:
+                c.append(cstr)
+                if fast:
+                    return c
+    if v:
+        print("Found %i matching calculus from a total of %i (%i%% rate)" % (len(c), tot, (len(c)/tot)*100))
+    return c
+
+
