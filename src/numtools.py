@@ -17,6 +17,36 @@ def lcopy(l):
         nl.insert(i, l[i])
     return nl
 
+def lex_perm_i(l):
+    b = []
+    b.append(lcopy(l))
+    l = lcopy(l)
+    ll = len(l)
+    while True:
+        x = -1
+        lr = []
+        for i in range(0, ll - 1):
+            if (l[i] < l[i + 1]):
+                x = i
+        if x == -1:
+            break
+
+        for i in range(0, ll):
+            if l[x] < l[i]:
+                y = i
+        l[x],l[y] = l[y],l[x]
+
+        i = 0
+        while i <= x:
+            lr.append(l[i])
+            i += 1
+
+        for i in range(0, ll - x - 1):
+            lr.append(l[ll - 1 - i])
+        b.append(lr)
+        l = lcopy(lr)
+    return b
+
 def lex_perm(l, b):
     l = lcopy(l)
     x = -1
