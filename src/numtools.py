@@ -125,7 +125,7 @@ def getMatches(s, match, fast=True, v=False):
                 if fast:
                     return c
     if v:
-        print("Found %i matching calculus from a total of %i (%i%% rate)" % (len(c), tot, (len(c)/tot)*100))
+        print("Found %i matching calculus from a total of %i " % (len(c), tot))
     return c
 
 
