@@ -1,5 +1,7 @@
 #! /usr/bin/python3.4
+
 import sys
+import getopt
 
 def isort(s):
     l = []
@@ -9,6 +11,12 @@ def isort(s):
         while i < len(l) and l[i] <= c:
             i += 1
         l.insert(i, c)
+    return l
+
+def toList(s):
+    l = []
+    for c in s:
+        l.append(int(c))
     return l
 
 def lcopy(l):
@@ -94,6 +102,36 @@ def gen_cal(l, depth, fast, match):
                 else:
                     r.append((res, s2))
     return r
+
+def generateMatches(number, match, p_sort, p_lex, p_group, fast):
+    if p_sort:
+        l = isort(number)
+    else:
+        l = toList(number)
+    if p_lex:
+        l = lex_perm_i(l)
+    else:
+        l = [l]
+    if p_group:
+        g = []
+        for permutation in l:
+            gr = group(permutation)
+            for elt in gr:
+                g.append(elt)
+        l = g
+    if match:
+        match = int(match)
+        c = []
+        for element in l:
+            cals = gen_cal(element, 0, fast, match)
+            for (res, calstr) in cals:
+                if res == match and calstr not in c:
+                    c.append(calstr)
+                    if fast:
+                        return c
+        l = c
+    return l
+ 
 
 def getMatches(s, match, fast=True, v=False):
     s = isort(s)
