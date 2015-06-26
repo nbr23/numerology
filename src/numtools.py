@@ -166,4 +166,51 @@ def getMatches(s, match, fast=True, v=False):
         print("Found %i matching calculus from a total of %i " % (len(c), tot))
     return c
 
+def printUsage(name):
+  print("Usage:\t%s -t transport_type -l line [-s station [-d direction]] " % name)
+  print("\t%s -i input -m match" % name)
+  print("\t-i input : input on which to work (numeric string)")
+  print("\t-m match : number to find/match")
+  print("\t-l : performs a lexical generation of permutations")
+  print("\t-s : sorts the numbers before processing")
+  print("\t-g : generate groups")
+  print("\t-q : quick mode, exists on the first match found instead of finding them all")
 
+def main():
+    sort = False
+    number = None
+    match = None
+    lexical = False
+    gen_group = False
+    fast = False
+    try:
+        opt, args = getopt.getopt(sys.argv[1:], "hi:m:lsgq", ["help"])
+    except getopt.GetoptError:
+        printUsage(sys.argv[0])
+        return 1
+    for op, val in opt:
+        if op in ("-h", "--help"):
+            printUsage(sys.argv[0])
+            return 0
+        elif op == "-m":
+            match = val
+        elif op == "-i":
+            number = val
+        elif op == "-s":
+            sort = True
+        elif op == "-l":
+            lexical = True
+        elif op == "-g":
+            gen_group = True
+        elif op == "-q":
+            fast = True
+    if number:
+        matches = generateMatches(number, match, sort, lexical, gen_group, fast)
+        for m in matches:
+            print(m)
+    else:
+        printUsage(sys.argv[0])
+        return 1
+
+if __name__ == "__main__":
+      sys.exit(main())
