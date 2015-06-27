@@ -104,7 +104,7 @@ def gen_cal(l, depth, fast, match):
     return r
 
 def generateMatches(number, match, p_sort, p_lex, p_group, fast):
-    if p_sort:
+    if p_sort or p_lex:
         l = isort(number)
     else:
         l = toList(number)
@@ -171,7 +171,7 @@ def printUsage(name):
   print("\t%s -i input -m match" % name)
   print("\t-i input : input on which to work (numeric string)")
   print("\t-m match : number to find/match")
-  print("\t-l : performs a lexical generation of permutations")
+  print("\t-l : performs a lexical generation of permutations (implies -s to be called)")
   print("\t-s : sorts the numbers before processing")
   print("\t-g : generate groups")
   print("\t-q : quick mode, exists on the first match found instead of finding them all")
