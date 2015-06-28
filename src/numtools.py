@@ -131,40 +131,6 @@ def generateMatches(number, match, p_sort, p_lex, p_group, fast):
                         return c
         l = c
     return l
- 
-
-def getMatches(s, match, fast=True, v=False):
-    s = isort(s)
-    if v:
-        print("Sample sorted:")
-        print(s)
-
-    b = lex_perm_i(s)
-    if v:
-        print("Created %i permutations" % len(b))
-
-    g = []
-    for perm in b:
-        groups = group(perm)
-        for elt in groups:
-            g.append(elt)
-    if v:
-        print("Created %i different groupings" % len(g))
-
-    c = []
-    lg = len(g)
-    tot = 0
-    for gr in g:
-        calcs = gen_cal(gr, 0, fast, match)
-        for (res,cstr) in calcs:
-            tot += 1
-            if res == match and cstr not in c:
-                c.append(cstr)
-                if fast:
-                    return c
-    if v:
-        print("Found %i matching calculus from a total of %i " % (len(c), tot))
-    return c
 
 def printUsage(name):
   print("Usage:\t%s -t transport_type -l line [-s station [-d direction]] " % name)
