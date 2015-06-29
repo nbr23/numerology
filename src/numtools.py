@@ -82,12 +82,12 @@ def div(a, b):
 operators = [add, sub, mul, div]
 operators_s = ["+", "-", "×", "÷"]
 
-def gen_cal(l, depth, fast, match):
+def gen_cal(l, fast, match, depth=0):
     r = []
     if len(l) == 1:
         return [(l[0], str(l[0]))]
     else:
-        calcs = gen_cal(l[1:], depth + 1, fast, match)
+        calcs = gen_cal(l[1:], fast, match, depth + 1)
         for i in range(0, len(operators)):
             for (res, s) in calcs:
                 if operators[i] == div and res == 0:
@@ -123,7 +123,7 @@ def generateMatches(number, match, p_sort, p_lex, p_group, fast):
         match = int(match)
         c = []
         for element in l:
-            cals = gen_cal(element, 0, fast, match)
+            cals = gen_cal(element, fast, match)
             for (res, calstr) in cals:
                 if res == match and calstr not in c:
                     c.append(calstr)
