@@ -92,8 +92,11 @@ def gen_cal(l, fast, match, depth=0):
             for (res, s) in calcs:
                 if operators[i] == div and res == 0:
                     continue
+                if operators_s[i] != "×" and operators_s[i] != "÷":
+                    s2 = "(" + str(l[0]) + operators_s[i] + s + ")"
+                else:
+                    s2 = str(l[0]) + operators_s[i] + s
                 res = operators[i](l[0], res)
-                s2 = str(l[0]) + operators_s[i] + s
                 if depth == 0:
                     if res == match:
                         r.append((res, s2))
