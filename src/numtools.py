@@ -136,8 +136,7 @@ def generateMatches(number, match, p_sort, p_lex, p_group, fast):
     return l
 
 def printUsage(name):
-  print("Usage:\t%s -t transport_type -l line [-s station [-d direction]] " % name)
-  print("\t%s -i input -m match" % name)
+  print("Usage:\t%s -i input [-slgq] [-m match]" % name)
   print("\t-i input : input on which to work (numeric string)")
   print("\t-m match : number to find/match")
   print("\t-l : performs a lexical generation of permutations (implies -s to be called)")
