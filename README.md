@@ -29,7 +29,25 @@ Which will result in:
 ```
 (0+(1+(1+(15+6))))
 ```
-Which equals 23!
+Which equals 23! The -q option enables quickmode, which only returns one (the
+first) matching pattern.
+
+If we want to respect the date's order:
+
+```
+./numtools.py -i 110615 -g -m 23
+```
+
+```
+(1+(1+(0+(6+15))))
+(1+(1-(0-(6+15))))
+(1+(1+(6+15)))
+(1+(10+(6+(1+5))))
+(11+(0+(6+(1+5))))
+(11-(0-(6+(1+5))))
+(11+(6+(1+5)))
+```
+All of these expressions resulting in 32.
 
 ### Generating lists
 If no match (-m) is selected, the output will simply be the generated list of
