@@ -8,7 +8,7 @@ multiply or divide each element composing the number in order to land on the
 "Magic" number of which you want to prove the omnipresence.
 
 ## Usage
-Usage:  ./numtools.py -i input [-slgq] [-m match]
+Usage:  ./numtools.py -i input [-slgqa] [-m match]
 
 * -i input : input on which to work (numeric string)
 * -m match : number to find/match
@@ -16,6 +16,7 @@ Usage:  ./numtools.py -i input [-slgq] [-m match]
 * -s : sorts the numbers before processing
 * -g : generate groups
 * -q : quick mode, exists on the first match found instead of finding them all
+* -a : only uses +/- operations (no ×/÷)
 
 ## Examples
 
