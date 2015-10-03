@@ -79,8 +79,7 @@ def mul(a, b):
 def div(a, b):
     return a/b
 
-operators = [add, sub, mul, div]
-operators_s = ["+", "-", "×", "÷"]
+operators = [("+", add), ("-", sub), ("×", mul), ("÷", div)]
 
 def gen_cal(l, fast, match, depth=0):
     r = []
@@ -88,15 +87,15 @@ def gen_cal(l, fast, match, depth=0):
         return [(l[0], str(l[0]))]
     else:
         calcs = gen_cal(l[1:], fast, match, depth + 1)
-        for i in range(0, len(operators)):
+        for sign,operator in operators:
             for (res, s) in calcs:
-                if operators[i] == div and res == 0:
+                if operator == div and res == 0:
                     continue
-                if operators_s[i] != "×" and operators_s[i] != "÷":
-                    s2 = "(" + str(l[0]) + operators_s[i] + s + ")"
+                if operator != mul and operator != div:
+                    s2 = "(" + str(l[0]) + sign + s + ")"
                 else:
-                    s2 = str(l[0]) + operators_s[i] + s
-                res = operators[i](l[0], res)
+                    s2 = str(l[0]) + sign + s
+                res = operator(l[0], res)
                 if depth == 0:
                     if res == match:
                         r.append((res, s2))
@@ -179,7 +178,7 @@ def main():
         elif op == "-a":
             multiplications = False
     if not multiplications:
-        operators = [add, sub]
+        operators = [("+", add), ("-", sub)]
     if number:
         matches = generateMatches(number, match, sort, lexical, gen_group, fast)
         for m in matches:
