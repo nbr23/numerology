@@ -81,6 +81,13 @@ def div(a, b):
 
 operators = [("+", add), ("-", sub), ("×", mul), ("÷", div)]
 
+def is_integer(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 def gen_cal(l, fast, match, depth=0):
     r = []
     if len(l) == 1:
@@ -91,10 +98,9 @@ def gen_cal(l, fast, match, depth=0):
             for (res, s) in calcs:
                 if operator == div and res == 0:
                     continue
-                if operator != mul and operator != div:
-                    s2 = "(" + str(l[0]) + sign + s + ")"
-                else:
-                    s2 = str(l[0]) + sign + s
+                s2 = (str(l[0]) if is_integer(l[0]) \
+                        else "(" + str(l[0]) + ")") + sign + \
+                        (s if is_integer(s) else "(" + s + ")")
                 res = operator(l[0], res)
                 if depth == 0:
                     if res == match:
