@@ -80,7 +80,11 @@ def mul(a, b):
 def div(a, b):
     return a/b
 
-operators = [("+", add), ("-", sub), ("×", mul), ("÷", div)]
+
+def get_operators(pretty, mult):
+    if mult:
+        return [("+", add), ("-", sub), ("×", mul), ("÷", div)] if pretty else [("+", add), ("-", sub), ("*", mul), ("/", div)]
+    return [("+", add), ("-", sub)]
 
 def is_integer(s):
     try:
@@ -89,12 +93,12 @@ def is_integer(s):
     except ValueError:
         return False
 
-def gen_cal(l, fast, match, depth=0):
+def gen_cal(l, fast, match, operators, depth=0):
     r = []
     if len(l) == 1:
         return [(l[0], str(l[0]))]
     else:
-        calcs = gen_cal(l[1:], fast, match, depth + 1)
+        calcs = gen_cal(l[1:], fast, match, operators, depth + 1)
         for sign,operator in operators:
             for (res, s) in calcs:
                 if operator == div and res == 0:
@@ -112,7 +116,7 @@ def gen_cal(l, fast, match, depth=0):
                     r.append((res, s2))
     return r
 
-def generateMatches(number, match, p_sort, p_lex, p_group, fast):
+def generateMatches(number, match, p_sort, p_lex, p_group, fast, operators):
     if p_sort or p_lex:
         l = isort(number)
     else:
@@ -132,7 +136,7 @@ def generateMatches(number, match, p_sort, p_lex, p_group, fast):
         match = int(match)
         c = []
         for element in l:
-            cals = gen_cal(element, fast, match)
+            cals = gen_cal(element, fast, match, operators)
             for (res, calstr) in cals:
                 if res == match and calstr not in c:
                     c.append(calstr)
@@ -150,9 +154,9 @@ def printUsage(name):
   print("\t-g : generate groups")
   print("\t-q : quick mode, exists on the first match found instead of finding them all")
   print("\t-a : only uses +/- operations (no ×/÷)")
+  print("\t-p : pretty print (uses utf-8 operators and displays the result)")
 
 def main():
-    global operators
     sort = False
     number = None
     match = None
@@ -160,9 +164,10 @@ def main():
     gen_group = False
     fast = False
     multiplications = True
+    pretty = False
 
     try:
-        opt, args = getopt.getopt(sys.argv[1:], "hi:m:lsgqa", ["help"])
+        opt, args = getopt.getopt(sys.argv[1:], "hi:m:lsgqap", ["help"])
     except getopt.GetoptError:
         printUsage(sys.argv[0])
         return 1
@@ -187,12 +192,16 @@ def main():
             fast = True
         elif op == "-a":
             multiplications = False
-    if not multiplications:
-        operators = [("+", add), ("-", sub)]
+        elif op == "-p":
+            pretty = True
     if number:
-        matches = generateMatches(number, match, sort, lexical, gen_group, fast)
+        matches = generateMatches(number, match, sort, lexical, gen_group,
+                fast, get_operators(pretty, multiplications))
         for m in matches:
-            print(m)
+            if pretty and match:
+                print('%s = %s' % (m, match))
+            else:
+                print(m)
     else:
         printUsage(sys.argv[0])
         return 1
