@@ -1,7 +1,8 @@
-#! /usr/bin/python3.4
+#! /usr/bin/python3
 
 import sys
 import getopt
+from datetime import date
 
 def isort(s):
     l = []
@@ -142,7 +143,7 @@ def generateMatches(number, match, p_sort, p_lex, p_group, fast):
 
 def printUsage(name):
   print("Usage:\t%s -i input [-slgqa] [-m match]" % name)
-  print("\t-i input : input on which to work (numeric string)")
+  print("\t-i input : input on which to work (numeric string or 'today' for current date)")
   print("\t-m match : number to find/match")
   print("\t-l : performs a lexical generation of permutations (implies -s to be called)")
   print("\t-s : sorts the numbers before processing")
@@ -172,7 +173,10 @@ def main():
         elif op == "-m":
             match = val
         elif op == "-i":
-            number = val
+            if val == 'today':
+                number = date.today().strftime("%d%m%Y")
+            else:
+                number = val
         elif op == "-s":
             sort = True
         elif op == "-l":
